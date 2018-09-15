@@ -16,8 +16,8 @@ Pair with the device manually please do.
 - Connect , Disconnect
 - Characteristics Notify , Indicate Event
 - Characteristics Read
-- IEEE 1073 16bit float Convert
-- IEEE 1073 32bit float Convert
+- IEEE 11073 16bit float Convert
+- IEEE 11073 32bit float Convert
 
 ## Requirement
 - BLE Device Health Thermometer 体温計
