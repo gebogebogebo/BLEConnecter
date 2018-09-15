@@ -1,0 +1,16 @@
+﻿<Window x:Class="BLEConnecter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BLEConnecter"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="208.571" Width="464.286">
+    <Grid>
+        <Button x:Name="button" Content="Health Thermometer Start" HorizontalAlignment="Left" Height="33" Margin="41,36,0,0" VerticalAlignment="Top" Width="173" Click="button_Click"/>
+        <Button x:Name="button_Copy" Content="Health Thermometer Stop" HorizontalAlignment="Left" Height="33" Margin="235,36,0,0" VerticalAlignment="Top" Width="173" Click="button_Copy_Click" />
+        <Button x:Name="button_BP" Content="Blood Pressure Start" HorizontalAlignment="Left" Height="33" Margin="41,120,0,0" VerticalAlignment="Top" Width="173" Click="button_BP_Click" />
+        <Button x:Name="button_BP_Copy" Content="Blood Pressure Stop" HorizontalAlignment="Left" Height="33" Margin="235,120,0,0" VerticalAlignment="Top" Width="173" Click="button_BP_Copy_Click" />
+
+    </Grid>
+</Window>
