@@ -20,7 +20,7 @@ Pair with the device manually please do.
 - IEEE 1073 32bit float Convert
 
 ## Requirement
-― BLE Device Health Thermometer 体温計
+- BLE Device Health Thermometer 体温計
 - BLE Deivce Blood Pressure 血圧計
 
 ## Licence
