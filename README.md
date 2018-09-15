@@ -10,7 +10,7 @@ Pair with the device manually please do.
 ## Description
 - Windows 10 1709
 - Visual Studio 2015
-- C#
+- C# Desktop Applicaion
 - .Net Framework 4.5.2
 - Health Thermometer Service , Blood Pressure Service Sample
 - Connect , Disconnect
