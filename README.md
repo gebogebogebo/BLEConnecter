@@ -4,13 +4,16 @@ BLEConnecter
 BLE(Bluetooth Low Energy)デバイスとGATTで通信するサンプルプログラム
 Sample program to communicate with BLE (Bluetooth Low Energy) device with GATT
 
+デバイスとのペアリングは手動で行ってください。
+Pair with the device manually please do.
+
 ## Description
 - Windows 10 1709
 - Visual Studio 2015
 - C#
 - .Net Framework 4.5.2
 - Health Thermometer Service , Blood Pressure Service Sample
-- サービスとの接続、切断
+- Connect , Disconnect
 - Characteristics Notify , Indicate Event
 - Characteristics Read
 - IEEE 1073 16bit float Convert
