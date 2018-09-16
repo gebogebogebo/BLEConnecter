@@ -18,6 +18,7 @@ Pair with the device manually please do.
 - Characteristics Read
 - IEEE-11073 16bit float Convert
 - IEEE-11073 32bit float Convert
+- Click [here](https://qiita.com/gebo/items/41da7474936845d77d06) for details
 
 ## Requirement
 - BLE Device Health Thermometer 体温計
