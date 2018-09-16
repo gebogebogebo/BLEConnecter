@@ -14,16 +14,16 @@ namespace BLEConnecter
         // byte配列値をfloatに変換する
         public enum ConvType
         {
-            IEEE_1073_16bit_float,
-            IEEE_1073_32bit_float,
+            IEEE_11073_16bit_float,
+            IEEE_11073_32bit_float,
         }
 
         public static float ConvertToFloat(byte[] value, ConvType type)
         {
             switch (type) {
-                case ConvType.IEEE_1073_16bit_float:
+                case ConvType.IEEE_11073_16bit_float:
                     return (Common.tofloat_from11073_16bit_float(value));
-                case ConvType.IEEE_1073_32bit_float:
+                case ConvType.IEEE_11073_32bit_float:
                     return (Common.tofloat_from11073_32bit_float(value));
             }
             return 0.0f;

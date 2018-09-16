@@ -114,7 +114,7 @@ namespace BLEConnecter
                 Console.WriteLine($"C1    = {BitConverter.ToString(data, 1, 4)}");
 
                 byte[] c1 = data.Skip(1).Take(4).ToArray();
-                var temperature = Common.ConvertToFloat(c1, Common.ConvType.IEEE_1073_32bit_float);
+                var temperature = Common.ConvertToFloat(c1, Common.ConvType.IEEE_11073_32bit_float);
                 Console.WriteLine($"Temperature    = {temperature}℃");
             }
 

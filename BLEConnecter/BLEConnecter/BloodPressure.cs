@@ -122,17 +122,17 @@ namespace BLEConnecter
 
                 {
                     byte[] c1 = data.Skip(1).Take(2).ToArray();
-                    var val = Common.ConvertToFloat(c1, Common.ConvType.IEEE_1073_16bit_float);
+                    var val = Common.ConvertToFloat(c1, Common.ConvType.IEEE_11073_16bit_float);
                     Console.WriteLine($"Blood Pressure Measurement Compound Value - Systolic(最高血圧)    = {val}mmHg");
                 }
                 {
                     byte[] c1 = data.Skip(3).Take(2).ToArray();
-                    var val = Common.ConvertToFloat(c1, Common.ConvType.IEEE_1073_16bit_float);
+                    var val = Common.ConvertToFloat(c1, Common.ConvType.IEEE_11073_16bit_float);
                     Console.WriteLine($"Blood Pressure Measurement Compound Value - Diastolic(最低血圧)   = {val}mmHg");
                 }
                 {
                     byte[] c1 = data.Skip(5).Take(2).ToArray();
-                    var val = Common.ConvertToFloat(c1, Common.ConvType.IEEE_1073_16bit_float);
+                    var val = Common.ConvertToFloat(c1, Common.ConvType.IEEE_11073_16bit_float);
                     Console.WriteLine($"Mean Arterial Pressure(平均)                                      = {val}mmHg");
                 }
             }
