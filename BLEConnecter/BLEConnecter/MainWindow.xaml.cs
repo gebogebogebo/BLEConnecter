@@ -36,5 +36,23 @@ namespace BLEConnecter
             BloodPressureService.Stop();
             BloodPressureService = null;
         }
+
+        WeightScale WeightScaleService;
+        private void button_WS_Click(object sender, RoutedEventArgs e)
+        {
+            WeightScaleService = new WeightScale();
+            WeightScaleService.Start();
+        }
+
+        private void button_WS_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            WeightScaleService.Stop();
+        }
+
+        private void button_DI_Click(object sender, RoutedEventArgs e)
+        {
+            DeviceInformationService.CheckDeviceInformation();
+        }
+
     }
 }

@@ -135,6 +135,7 @@ namespace BLEConnecter
                     var val = Common.ConvertToFloat(c1, Common.ConvType.IEEE_11073_16bit_float);
                     Console.WriteLine($"Mean Arterial Pressure(平均)                                      = {val}mmHg");
                 }
+
             }
 
             return;

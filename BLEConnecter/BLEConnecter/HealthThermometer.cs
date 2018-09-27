@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using System.Threading.Tasks;
 
 namespace BLEConnecter
 {
@@ -35,8 +36,11 @@ namespace BLEConnecter
 
                 var characteristics = Service.GetAllCharacteristics();
                 foreach (var ch in characteristics) {
-                    Console.WriteLine($"CharacteristicUUID...{ch.Uuid}");
-                    Console.WriteLine($"CharacteristicProperties...{ch.CharacteristicProperties}");
+                    Console.WriteLine($"Characteristic...");
+                    Console.WriteLine($"...AttributeHandle=0x{ch.AttributeHandle.ToString("X2")}");
+                    Console.WriteLine($"...Properties={ch.CharacteristicProperties}");
+                    Console.WriteLine($"...ProtectionLevel={ch.ProtectionLevel}");
+                    Console.WriteLine($"...UUID={ch.Uuid}");
                 }
             }
 
@@ -137,6 +141,5 @@ namespace BLEConnecter
 
             return;
         }
-
     }
 }
