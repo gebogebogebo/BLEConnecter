@@ -9,11 +9,11 @@ namespace BLEConnecter
 {
     public class HealthThermometer
     {
-        private GattDeviceService Service;
+        protected GattDeviceService Service;
 
-        const string SERVICE_UUID = "1809";
+        protected const string SERVICE_UUID = "1809";
 
-        public async void Start()
+        public virtual async void Start()
         {
             var devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(Common.CreateFullUUID(SERVICE_UUID)));
             if (devices.Count <= 0) {
@@ -84,16 +84,23 @@ namespace BLEConnecter
 
         public async void Stop()
         {
-            Console.WriteLine($"Service Close...{Service.Device.Name}");
+            if (Service != null) {
+                Console.WriteLine($"Service Close...{Service.Device.Name}");
 
-            await this.Characteristic_Temperature_Measurement.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.None);
-            await this.Characteristic_Intermediate_Temperature.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.None);
-            this.Service.Dispose();
+                //if (Characteristic_Temperature_Measurement != null) {
+                //    await this.Characteristic_Temperature_Measurement.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.None);
+                //}
+                //if (Characteristic_Intermediate_Temperature != null) {
+                //    await this.Characteristic_Intermediate_Temperature.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.None);
+                //}
+
+                this.Service.Dispose();
+            }
         }
 
         // Temperature_Measurement　体温測定値
-        private GattCharacteristic Characteristic_Temperature_Measurement;
-        private void characteristicChanged_Temperature_Measurement(GattCharacteristic sender, GattValueChangedEventArgs eventArgs)
+        protected GattCharacteristic Characteristic_Temperature_Measurement;
+        protected void characteristicChanged_Temperature_Measurement(GattCharacteristic sender, GattValueChangedEventArgs eventArgs)
         {
             Console.WriteLine($"characteristicChanged...Length={eventArgs.CharacteristicValue.Length}");
             if (eventArgs.CharacteristicValue.Length <= 0) {
@@ -126,8 +133,8 @@ namespace BLEConnecter
         }
 
         // Intermediate_Temperature　体温の変化通知
-        private GattCharacteristic Characteristic_Intermediate_Temperature;
-        private void characteristicChanged_Intermediate_Temperature(GattCharacteristic sender, GattValueChangedEventArgs eventArgs)
+        protected GattCharacteristic Characteristic_Intermediate_Temperature;
+        protected void characteristicChanged_Intermediate_Temperature(GattCharacteristic sender, GattValueChangedEventArgs eventArgs)
         {
             Console.WriteLine($"characteristicChanged_Intermediate_Temperature...Length={eventArgs.CharacteristicValue.Length}");
             if (eventArgs.CharacteristicValue.Length <= 0) {

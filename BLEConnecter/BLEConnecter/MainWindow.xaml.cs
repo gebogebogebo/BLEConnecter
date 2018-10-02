@@ -54,5 +54,12 @@ namespace BLEConnecter
             DeviceInformationService.CheckDeviceInformation();
         }
 
+        //HealthThermometer2 HealthThermometerService2;
+        private void button_HT_2_Start_Click(object sender, RoutedEventArgs e)
+        {
+            HealthThermometerService = new HealthThermometer2();
+            HealthThermometerService.Start();
+
+        }
     }
 }
