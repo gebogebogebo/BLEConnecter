@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="306.571" Width="492.286">
     <Grid>
-        <Button x:Name="button" Content="Health Thermometer Start" HorizontalAlignment="Left" Height="33" Margin="43,10,0,0" VerticalAlignment="Top" Width="173" Click="button_Click"/>
-        <Button x:Name="button_Copy" Content="Health Thermometer Stop" HorizontalAlignment="Left" Height="33" Margin="237,10,0,0" VerticalAlignment="Top" Width="173" Click="button_Copy_Click" />
-        <Button x:Name="button_BP" Content="Blood Pressure Start" HorizontalAlignment="Left" Height="33" Margin="43,105,0,0" VerticalAlignment="Top" Width="173" Click="button_BP_Click" />
-        <Button x:Name="button_BP_Copy" Content="Blood Pressure Stop" HorizontalAlignment="Left" Height="33" Margin="237,105,0,0" VerticalAlignment="Top" Width="173" Click="button_BP_Copy_Click" />
-        <Button x:Name="button_WS" Content="Weight Scale Start" HorizontalAlignment="Left" Height="33" Margin="43,167,0,0" VerticalAlignment="Top" Width="173" Click="button_WS_Click" />
-        <Button x:Name="button_DI" Content="Check Device Information" HorizontalAlignment="Left" Height="33" Margin="43,222,0,0" VerticalAlignment="Top" Width="173" Click="button_DI_Click" />
-        <Button x:Name="button_WS_Copy" Content="Weight Scale Stop" HorizontalAlignment="Left" Height="33" Margin="237,167,0,0" VerticalAlignment="Top" Width="173" Click="button_WS_Copy_Click" />
-        <Button x:Name="button_HT_2_Start" Content="Health Thermometer Start - ADV" HorizontalAlignment="Left" Height="33" Margin="43,58,0,0" VerticalAlignment="Top" Width="206" Click="button_HT_2_Start_Click" />
+        <Button x:Name="button" Content="Health Thermometer Start 1" HorizontalAlignment="Left" Height="33" Margin="43,10,0,0" VerticalAlignment="Top" Width="206" Click="button_Click"/>
+        <Button x:Name="button_HT_2_Start" Content="Health Thermometer Start 2" HorizontalAlignment="Left" Height="33" Margin="43,58,0,0" VerticalAlignment="Top" Width="206" Click="button_HT_2_Start_Click" />
+        <Button x:Name="button_Copy" Content="Health Thermometer Stop" HorizontalAlignment="Left" Height="33" Margin="271,10,0,0" VerticalAlignment="Top" Width="173" Click="button_Copy_Click" />
+        <Button x:Name="button_BP" Content="Blood Pressure Start" HorizontalAlignment="Left" Height="33" Margin="43,105,0,0" VerticalAlignment="Top" Width="206" Click="button_BP_Click" />
+        <Button x:Name="button_BP_Copy" Content="Blood Pressure Stop" HorizontalAlignment="Left" Height="33" Margin="271,105,0,0" VerticalAlignment="Top" Width="173" Click="button_BP_Copy_Click" />
+        <Button x:Name="button_WS" Content="Weight Scale Start" HorizontalAlignment="Left" Height="33" Margin="43,167,0,0" VerticalAlignment="Top" Width="206" Click="button_WS_Click" />
+        <Button x:Name="button_DI" Content="Check Device Information" HorizontalAlignment="Left" Height="33" Margin="43,222,0,0" VerticalAlignment="Top" Width="206" Click="button_DI_Click" />
+        <Button x:Name="button_WS_Copy" Content="Weight Scale Stop" HorizontalAlignment="Left" Height="33" Margin="271,167,0,0" VerticalAlignment="Top" Width="173" Click="button_WS_Copy_Click" />
 
     </Grid>
 </Window>
