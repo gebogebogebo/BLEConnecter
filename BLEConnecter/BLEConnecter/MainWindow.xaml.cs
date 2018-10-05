@@ -15,7 +15,13 @@ namespace BLEConnecter
         private void button_Click(object sender, RoutedEventArgs e)
         {
             HealthThermometerService = new HealthThermometer();
-            HealthThermometerService.Start();
+            HealthThermometerService.Start1();
+        }
+        private void button_HT_2_Start_Click(object sender, RoutedEventArgs e)
+        {
+            HealthThermometerService = new HealthThermometer();
+            HealthThermometerService.Start2();
+
         }
 
         private void button_Copy_Click(object sender, RoutedEventArgs e)

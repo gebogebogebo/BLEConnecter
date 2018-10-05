@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.Devices.Bluetooth;
+using Windows.Devices.Bluetooth.Advertisement;
 
 namespace BLEConnecter
 {
@@ -11,87 +13,126 @@ namespace BLEConnecter
         private GattDeviceService Service;
 
         const string SERVICE_UUID = "1810";
+        private BluetoothLEAdvertisementWatcher advWatcher;
 
         public async void Start()
         {
-            var devices = await DeviceInformation.FindAllAsync(GattDeviceService.GetDeviceSelectorFromUuid(Common.CreateFullUUID(SERVICE_UUID)));
-            if (devices.Count <= 0) {
-                // デバイス無し
-                Console.WriteLine("デバイス無し...");
-                return;
-            }
+            this.advWatcher = new BluetoothLEAdvertisementWatcher();
 
-            this.Service = await GattDeviceService.FromIdAsync(devices.First().Id);
-            if (this.Service == null) {
-                Console.WriteLine("サービスに接続できない...");
-                return;
-            }
+            this.advWatcher.SignalStrengthFilter.SamplingInterval = TimeSpan.FromMilliseconds(1000);
+            this.advWatcher.ScanningMode = BluetoothLEScanningMode.Passive;
 
-            // for log
+            this.advWatcher.Received += this.Watcher_Received;
+
+            // スキャン開始
+            this.advWatcher.Start();
+        }
+
+        private async void Watcher_Received(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
+        {
+            this.CheckArgs(args);
+        }
+
+        public async void CheckArgs(BluetoothLEAdvertisementReceivedEventArgs args)
+        {
+            Console.WriteLine("★アドバタイズパケットスキャン");
+
+            bool find = false;
             {
-                Console.WriteLine($"Service.Uuid...{Service.Uuid}");
-                Console.WriteLine($"Servicev.DeviceId...{Service.DeviceId}");
-                Console.WriteLine($"Servicev.Device.Name...{Service.Device.Name}");
-
-                var characteristics = Service.GetAllCharacteristics();
-                foreach (var ch in characteristics) {
-                    Console.WriteLine($"CharacteristicUUID...{ch.Uuid}");
-                    Console.WriteLine($"CharacteristicProperties...{ch.CharacteristicProperties}");
-                }
-            }
-
-            // Blood Pressure Measurement
-            // Requirement = M , Mandatory Properties = Indicate
-            {
-                var characteristics = Service.GetCharacteristics(Common.CreateFullUUID("2A35"));
-                if (characteristics.Count > 0) {
-                    this.Characteristic_Blood_Pressure_Measurement = characteristics.First();
-                    if (this.Characteristic_Blood_Pressure_Measurement == null) {
-                        Console.WriteLine("Characteristicに接続できない...");
-                    } else {
-                        if (this.Characteristic_Blood_Pressure_Measurement.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate)) {
-                            // イベントハンドラ追加
-                            this.Characteristic_Blood_Pressure_Measurement.ValueChanged += characteristicChanged_Blood_Pressure_Measurement;
-
-                            // これで有効になる
-                            await this.Characteristic_Blood_Pressure_Measurement.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Indicate);
-                        }
+                var bleServiceUUIDs = args.Advertisement.ServiceUuids;
+                foreach (var uuidone in bleServiceUUIDs) {
+                    if (uuidone == Common.CreateFullUUID(SERVICE_UUID)) {
+                        // 発見
+                        find = true;
+                        break;
                     }
                 }
             }
 
-            // Blood Pressure Feature
-            // Requirement = M , Mandatory Properties = Read
-            {
-                var characteristics = Service.GetCharacteristics(Common.CreateFullUUID("2A49"));
-                if (characteristics.Count > 0) {
-                    var chara = characteristics.First();
-                    if (chara == null) {
-                        Console.WriteLine("Characteristicに接続できない...");
-                    } else {
-                        if (chara.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Read)) {
-                            GattReadResult result = await chara.ReadValueAsync();
-                            if (result.Status == GattCommunicationStatus.Success) {
-                                var reader = Windows.Storage.Streams.DataReader.FromBuffer(result.Value);
-                                byte[] input = new byte[reader.UnconsumedBufferLength];
-                                reader.ReadBytes(input);
+            if (find) {
+                try {
+                    Console.WriteLine($"Service Find！");
 
-                                var tmp = BitConverter.ToString(input);
-                                Console.WriteLine($"Blood Pressure Feature...{tmp}");
+                    // スキャンStop
+                    this.advWatcher.Stop();
+
+                    BluetoothLEDevice dev = await BluetoothLEDevice.FromBluetoothAddressAsync(args.BluetoothAddress);
+                    this.Service = dev.GetGattService(Common.CreateFullUUID(SERVICE_UUID));
+
+                    // for log
+                    {
+                        Console.WriteLine($"Service.Uuid...{Service.Uuid}");
+                        Console.WriteLine($"Servicev.DeviceId...{Service.DeviceId}");
+                        Console.WriteLine($"Servicev.Device.Name...{Service.Device.Name}");
+
+                        var characteristics = Service.GetAllCharacteristics();
+                        foreach (var ch in characteristics) {
+                            Console.WriteLine($"CharacteristicUUID...{ch.Uuid}");
+                            Console.WriteLine($"CharacteristicProperties...{ch.CharacteristicProperties}");
+                        }
+                    }
+
+                    // Blood Pressure Measurement
+                    // Requirement = M , Mandatory Properties = Indicate
+                    {
+                        var characteristics = Service.GetCharacteristics(Common.CreateFullUUID("2A35"));
+                        if (characteristics.Count > 0) {
+                            this.Characteristic_Blood_Pressure_Measurement = characteristics.First();
+                            if (this.Characteristic_Blood_Pressure_Measurement == null) {
+                                Console.WriteLine("Characteristicに接続できない...");
+                            } else {
+                                if (this.Characteristic_Blood_Pressure_Measurement.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Indicate)) {
+                                    // イベントハンドラ追加
+                                    this.Characteristic_Blood_Pressure_Measurement.ValueChanged += characteristicChanged_Blood_Pressure_Measurement;
+
+                                    // これで有効になる
+                                    await this.Characteristic_Blood_Pressure_Measurement.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Indicate);
+                                }
                             }
                         }
                     }
-                }
-            }
 
+                    // Blood Pressure Feature
+                    // Requirement = M , Mandatory Properties = Read
+                    {
+                        var characteristics = Service.GetCharacteristics(Common.CreateFullUUID("2A49"));
+                        if (characteristics.Count > 0) {
+                            var chara = characteristics.First();
+                            if (chara == null) {
+                                Console.WriteLine("Characteristicに接続できない...");
+                            } else {
+                                if (chara.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Read)) {
+                                    GattReadResult result = await chara.ReadValueAsync();
+                                    if (result.Status == GattCommunicationStatus.Success) {
+                                        var reader = Windows.Storage.Streams.DataReader.FromBuffer(result.Value);
+                                        byte[] input = new byte[reader.UnconsumedBufferLength];
+                                        reader.ReadBytes(input);
+
+                                        var tmp = BitConverter.ToString(input);
+                                        Console.WriteLine($"Blood Pressure Feature...{tmp}");
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    Console.WriteLine($"Exception...{ex.Message})");
+                }
+            } else {
+                Console.WriteLine($"...");
+            }
         }
 
         public async void Stop()
         {
-            Console.WriteLine($"Service Close...{Service.Device.Name}");
-
-            await this.Characteristic_Blood_Pressure_Measurement.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.None);
-            this.Service.Dispose();
+            if (advWatcher != null) {
+                this.advWatcher.Stop();
+            }
+            if (Service != null) {
+                Console.WriteLine($"Service Close...{Service.Device.Name}");
+                this.Service.Dispose();
+            }
         }
 
         // Blood Pressure Measurement　血圧測定値
