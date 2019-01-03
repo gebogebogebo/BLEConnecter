@@ -19,7 +19,7 @@ Pair with the device manually please do.
   - Visual Studio 2015
   - C# Desktop Applicaion
   - .Net Framework 4.5.2
-  - Click [here](https://qiita.com/gebo/items/41da7474936845d77d06) for details
+  - Read [Qiita](https://qiita.com/gebo/items/41da7474936845d77d06) for details
 - for Android
   - Windows 10 Pro 1803
   - Android Studio 3.2
